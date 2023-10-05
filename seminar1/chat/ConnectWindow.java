@@ -40,7 +40,13 @@ public class ConnectWindow extends JFrame{
                     new ChatWindow(login.getText(), server.getText());
                     setVisible(false);
                 } else {
-                    JOptionPane.showMessageDialog(connectWindow, "Введите корректный путь!");
+                    try{
+                        if (log.createLogFile(server.getText())) {
+                            JOptionPane.showMessageDialog(connectWindow, "Создан новый log-файл. Повторите попытку подключения.");
+                        }
+                    } catch (RuntimeException er){
+                        JOptionPane.showMessageDialog(connectWindow,  er.getMessage() + "\nВведите корректный путь!");
+                    }
                 }
             }
         });

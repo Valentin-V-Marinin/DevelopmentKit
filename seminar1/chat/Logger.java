@@ -3,6 +3,8 @@ package seminar1.chat;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Logger {
 
@@ -23,6 +25,23 @@ public class Logger {
         File file = new File(path);
         if (file.exists()) return true;
         return false;
+    }
+
+    public boolean createLogFile(String path) throws RuntimeException{
+        boolean result = false;
+        try {
+            File file = new File(path);
+            try (FileWriter fw = new FileWriter(file, true)) {
+                String str = "Лог файл создан " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy/MM/dd hh:mm:ss"));
+                fw.write(str);
+                fw.flush();
+                result = true;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 
     public void savelog(JTextArea field)throws RuntimeException{
